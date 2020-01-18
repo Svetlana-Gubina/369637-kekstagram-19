@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Светлана Губина](https://up.htmlacademy.ru/javascript/19/user/369637).
-* Наставник: `Неизвестно`.
+* Наставник: `Нет`.
 
 ---
 
