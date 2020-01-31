@@ -23,5 +23,7 @@
     });
   };
 
-  inputUpload.addEventListener('change', openUpload);
+  inputUpload.addEventListener('change', function () {
+    openUpload();
+  });
 })();

@@ -5,6 +5,7 @@
   var effectsList = document.querySelector('.effects__list');
   var sliderElement = document.querySelector('.effect-level');
   var effectValue = document.querySelector('.effect-level__value');
+  var DEFAULTVALUE = 1;
 
   // Функция изменении уровня интенсивности эффекта
   var getEffect = function (currentType, level) {
@@ -14,19 +15,19 @@
         result = 'none';
         break;
       case 'chrome':
-        result = 'grayscale(' + (level * 0.01) + ')';
+        result = 'grayscale(' + level + ')';
         break;
       case 'sepia':
-        result = 'sepia(' + (level * 0.01) + ')';
+        result = 'sepia(' + level + ')';
         break;
       case 'marvin':
-        result = 'invert(' + level + '%)';
+        result = 'invert(' + (level * 100) + '%)';
         break;
       case 'phobos':
-        result = 'blur(' + level * 0.01 * 3 + 'px)';
+        result = 'blur(' + level * 3 + 'px)';
         break;
       case 'heat':
-        result = 'brightness(' + level * 0.01 * 3 + ')';
+        result = 'brightness(' + level * 3 + ')';
         break;
     }
     return result;
@@ -36,27 +37,25 @@
   var currentLevel;
 
   var changeSliderHandler = function (level) {
-    console.log('level: ' + level);
-    // var effect = getEffect(currentType, level);
-    // imgPreview.style.filter = effect;
-    // effectValue.value = level;
-    // currentLevel = level;
+    var effect = getEffect(currentType, level);
+    imgPreview.style.filter = effect;
+    effectValue.value = level * 100;
+    currentLevel = level;
   };
 
   var changeEffect = function (evt) {
     var input = evt.target;
     var type = input.value;
     currentType = type;
-
     changeSliderHandler(currentLevel);
-
-    imgPreview.classList = '.img-upload__preview';
-    imgPreview.classList.add('effects__preview--' + input.value);
     if (type === 'none') {
       window.utils.hide(sliderElement);
     } else {
       window.utils.show(sliderElement);
     }
+    window.slider.setValue(DEFAULTVALUE, changeSliderHandler);
+    imgPreview.classList = '.img-upload__preview';
+    imgPreview.classList.add('effects__preview--' + type);
   };
 
   // Наложение эффекта на изображение
