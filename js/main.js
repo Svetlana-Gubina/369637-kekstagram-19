@@ -123,9 +123,12 @@
   };
 
   pictures.addEventListener('click', function (evt) {
-    if (evt.target.classList.contains('picture__img')) {
-      var picture = evt.target;
+    if (evt.target.classList.contains('picture')) {
+      var picture = evt.target.firstElementChild;
       pictureClickHandler(findElem(picture, userFotos));
+    } else if (evt.target.classList.contains('picture__img')) {
+      var pic = evt.target;
+      pictureClickHandler(findElem(pic, userFotos));
     }
   });
 })();
