@@ -105,12 +105,34 @@
     }
   };
 
-  inputHashtags.addEventListener('input', function () {
+  // inputHashtags.addEventListener('input', function () {
+  //   checkInput(inputHashtags);
+  // });
+  // comment.addEventListener('input', function () {
+  //   checkInput(comment);
+  // });
+
+  inputHashtags.addEventListener('change', function () {
     checkInput(inputHashtags);
   });
 
-  comment.addEventListener('input', function () {
+  comment.addEventListener('change', function () {
     checkInput(comment);
+  });
+
+  /* если фокус находится в поле ввода хэш-тега, нажатие на Esc не должно приводить
+  к закрытию формы редактирования изображения.*/
+  inputHashtags.addEventListener('focus', function () {
+    document.removeEventListener('keydown', window.upload.uploadEscPressHandler);
+  });
+  inputHashtags.addEventListener('blur', function () {
+    document.addEventListener('keydown', window.upload.uploadEscPressHandler);
+  });
+  comment.addEventListener('focus', function () {
+    document.removeEventListener('keydown', window.upload.uploadEscPressHandler);
+  });
+  comment.addEventListener('blur', function () {
+    document.addEventListener('keydown', window.upload.uploadEscPressHandler);
   });
 
   // Form
