@@ -43,7 +43,7 @@
     userFotos.push(new UserFotoObject(randomUrls[i]));
   }
 
-  var renderSocialComment = function (comment) {
+  var createSocialComment = function (comment) {
     var li = document.createElement('li');
     var img = document.createElement('img');
     var paragraph = document.createElement('p');
@@ -63,18 +63,45 @@
   var pictures = document.querySelector('.pictures');
   var userPictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
-  var pictureClickHandler = function (foto) {
+  var pictureClickHandler = function (evt, foto) {
+    var picture = evt.currentTarget;
+    var body = document.querySelector('body');
     var bigPicture = document.querySelector('.big-picture');
-    window.utils.show(bigPicture);
-    bigPicture.querySelector('.big-picture__img').firstElementChild.src = foto.url;
-    bigPicture.querySelector('.likes-count').textContent = foto.likes;
-    bigPicture.querySelector('.comments-count').textContent = foto.commnets;
+    var url = picture.querySelector('.picture__img').src;
+    var likesCount = picture.querySelector('.picture__likes').textContent;
+    var commnetsCount = picture.querySelector('.picture__comments').textContent;
+    var openbigPicture = function () {
+      window.utils.show(bigPicture);
+    };
+    var hideBigPicture = function () {
+      window.utils.hide(bigPicture);
+    };
+    var bigPictureEscPressHandler = function (keyEvt) {
+      if (keyEvt.key === 'Escape') {
+        hideBigPicture();
+        body.classList.remove('modal-open');
+      }
+    };
+    openbigPicture();
+    body.classList.add('modal-open');
+    bigPicture.querySelector('.big-picture__img').firstElementChild.src = url;
+    bigPicture.querySelector('.likes-count').textContent = likesCount;
+    bigPicture.querySelector('.comments-count').textContent = commnetsCount;
     bigPicture.querySelector('.social__caption').textContent = foto.description;
+
+    var cancel = document.querySelector('.big-picture__cancel');
+    cancel.addEventListener('click', hideBigPicture);
+    document.addEventListener('keydown', bigPictureEscPressHandler);
+    if (bigPicture.classList.contains('hidden')) {
+      cancel.removeEventListener('click', hideBigPicture);
+      document.removeEventListener('keydown', bigPictureEscPressHandler);
+    }
+
     var pictureComments = foto.commentsArray;
     var socialComments = bigPicture.querySelector('.social__comments');
     var newFragment = document.createDocumentFragment();
     for (var f = 0; f < pictureComments.length; f++) {
-      newFragment.appendChild(renderSocialComment(pictureComments[f]));
+      newFragment.appendChild(createSocialComment(pictureComments[f]));
     }
     socialComments.innerHTML = '';
     socialComments.appendChild(newFragment);
@@ -82,24 +109,13 @@
     var commentsLoader = bigPicture.querySelector('.comments-loader');
     window.utils.hide(socialCommentCount);
     window.utils.hide(commentsLoader);
-    var body = document.querySelector('body');
-    body.classList.add('modal-open');
-    bigPicture.querySelector('.cancel').addEventListener('click', function (CnacelEvt) {
-      CnacelEvt.preventDefault();
-      window.utils.hide(bigPicture);
-      body.classList.remove('modal-open');
-    });
-    body.addEventListener('keydown', function (keyEvt) {
-      keyEvt.preventDefault();
-      if (keyEvt.key === 'Escape') {
-        window.utils.hide(bigPicture);
-        body.classList.remove('modal-open');
-      }
-    });
   };
 
   var renderUserFoto = function (foto) {
     var userPicture = userPictureTemplate.cloneNode(true);
+    userPicture.addEventListener('click', function (evt) {
+      pictureClickHandler(evt, foto);
+    });
     userPicture.querySelector('.picture__img').src = foto.url;
     userPicture.querySelector('.picture__likes').textContent = foto.likes;
     userPicture.querySelector('.picture__comments').textContent = foto.comments;
@@ -111,24 +127,4 @@
     fragment.appendChild(renderUserFoto(userFotos[j]));
   }
   pictures.appendChild(fragment);
-
-
-  var findElem = function (pic, arr) {
-    var reg = /photos\/[0-9]+(.jpg|jpeg)$/;
-    var result = pic.src.match(reg);
-    var index = arr.findIndex(function (element) {
-      return element.url === result[0];
-    });
-    return arr[index];
-  };
-
-  pictures.addEventListener('click', function (evt) {
-    if (evt.target.classList.contains('picture')) {
-      var picture = evt.target.firstElementChild;
-      pictureClickHandler(findElem(picture, userFotos));
-    } else if (evt.target.classList.contains('picture__img')) {
-      var pic = evt.target;
-      pictureClickHandler(findElem(pic, userFotos));
-    }
-  });
 })();

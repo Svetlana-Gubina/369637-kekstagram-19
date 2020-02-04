@@ -67,6 +67,7 @@
   sliderElement.addEventListener('mousedown', effectLevelHandler);
 
   window.pictureEffect = {
+    imgPreview: imgPreview,
     sliderElement: sliderElement,
   };
 })();
