@@ -62,7 +62,7 @@
   effectsList.addEventListener('change', changeEffect);
   // Инициализация слайдера
   var effectLevelHandler = function () {
-    window.slider.initSlider(changeSliderHandler);
+    window.slider.init(changeSliderHandler);
   };
   sliderElement.addEventListener('mousedown', effectLevelHandler);
 

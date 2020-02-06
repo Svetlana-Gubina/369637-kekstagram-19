@@ -8,7 +8,7 @@
   var DEFAULTSCALE = 100;
   var scaleValue = document.querySelector('.scale__control--value');
 
-  var uploadEscPressHandler = function (evt) {
+  var escPressHandler = function (evt) {
     if (evt.key === 'Escape') {
       closeUpload();
       body.classList.remove('modal-open');
@@ -18,7 +18,7 @@
   var closeUpload = function () {
     inputUpload.value = '';
     window.utils.hide(upload);
-    document.removeEventListener('keydown', uploadEscPressHandler);
+    document.removeEventListener('keydown', escPressHandler);
   };
 
   var openUpload = function () {
@@ -26,7 +26,7 @@
     scaleValue.value = DEFAULTSCALE + '%';
     window.utils.hide(window.pictureEffect.sliderElement);
     uploadCancel.addEventListener('click', closeUpload);
-    document.addEventListener('keydown', uploadEscPressHandler);
+    document.addEventListener('keydown', escPressHandler);
   };
 
   inputUpload.addEventListener('change', function () {
@@ -36,6 +36,6 @@
   window.upload = {
     scaleValue: scaleValue,
     DEFAULTSCALE: DEFAULTSCALE,
-    uploadEscPressHandler: uploadEscPressHandler,
+    escPressHandler: escPressHandler,
   };
 })();
