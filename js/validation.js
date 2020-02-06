@@ -96,27 +96,20 @@
     }
     input.CustomValidation.checkValidity(hashtags || input);
     if (input.CustomValidation.invalidities.length !== 0) {
-      input.style.outline = '2px solid red';
       var message = input.CustomValidation.getInvalidities();
       input.setCustomValidity(message);
+      return false;
     } else {
       input.style.outline = 'none';
       input.setCustomValidity('');
+      return true;
     }
   };
 
-  // inputHashtags.addEventListener('input', function () {
-  //   checkInput(inputHashtags);
-  // });
-  // comment.addEventListener('input', function () {
-  //   checkInput(comment);
-  // });
-
-  inputHashtags.addEventListener('change', function () {
+  inputHashtags.addEventListener('input', function () {
     checkInput(inputHashtags);
   });
-
-  comment.addEventListener('change', function () {
+  comment.addEventListener('input', function () {
     checkInput(comment);
   });
 
@@ -135,13 +128,24 @@
     document.addEventListener('keydown', window.upload.uploadEscPressHandler);
   });
 
+  inputHashtags.addEventListener('invalid', function () {
+    inputHashtags.style.outline = '2px solid red';
+  });
+  comment.addEventListener('invalid', function () {
+    comment.style.outline = '2px solid red';
+  });
+
   // Form
   var form = document.querySelector('.img-upload__form');
 
   form.addEventListener('submit', function (evt) {
     // Каждый раз, когда пользователь пытается отправить данные, мы проверяем
     // валидность полей
-    evt.preventDefault();
+    var inputIsValid = checkInput(inputHashtags);
+    var textareaIsValid = checkInput(comment);
+    if (!inputIsValid || !textareaIsValid) {
+      evt.preventDefault();
+    }
   });
 
 })();
