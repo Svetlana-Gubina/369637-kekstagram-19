@@ -37,5 +37,6 @@
     scaleValue: scaleValue,
     DEFAULTSCALE: DEFAULTSCALE,
     escPressHandler: escPressHandler,
+    closeUpload: closeUpload,
   };
 })();

@@ -135,17 +135,9 @@
     comment.style.outline = '2px solid red';
   });
 
-  // Form
-  var form = document.querySelector('.img-upload__form');
-
-  form.addEventListener('submit', function (evt) {
-    // Каждый раз, когда пользователь пытается отправить данные, мы проверяем
-    // валидность полей
-    var inputIsValid = checkInput(inputHashtags);
-    var textareaIsValid = checkInput(comment);
-    if (!inputIsValid || !textareaIsValid) {
-      evt.preventDefault();
-    }
-  });
-
+  window.validation = {
+    inputHashtags: inputHashtags,
+    comment: comment,
+    checkInput: checkInput,
+  };
 })();
