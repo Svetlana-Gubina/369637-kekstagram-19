@@ -116,16 +116,16 @@
   /* если фокус находится в поле ввода хэш-тега, нажатие на Esc не должно приводить
   к закрытию формы редактирования изображения.*/
   inputHashtags.addEventListener('focus', function () {
-    document.removeEventListener('keydown', window.upload.uploadEscPressHandler);
+    document.removeEventListener('keydown', window.upload.escPressHandler);
   });
   inputHashtags.addEventListener('blur', function () {
-    document.addEventListener('keydown', window.upload.uploadEscPressHandler);
+    document.addEventListener('keydown', window.upload.escPressHandler);
   });
   comment.addEventListener('focus', function () {
-    document.removeEventListener('keydown', window.upload.uploadEscPressHandler);
+    document.removeEventListener('keydown', window.upload.escPressHandler);
   });
   comment.addEventListener('blur', function () {
-    document.addEventListener('keydown', window.upload.uploadEscPressHandler);
+    document.addEventListener('keydown', window.upload.escPressHandler);
   });
 
   inputHashtags.addEventListener('invalid', function () {
@@ -135,17 +135,9 @@
     comment.style.outline = '2px solid red';
   });
 
-  // Form
-  var form = document.querySelector('.img-upload__form');
-
-  form.addEventListener('submit', function (evt) {
-    // Каждый раз, когда пользователь пытается отправить данные, мы проверяем
-    // валидность полей
-    var inputIsValid = checkInput(inputHashtags);
-    var textareaIsValid = checkInput(comment);
-    if (!inputIsValid || !textareaIsValid) {
-      evt.preventDefault();
-    }
-  });
-
+  window.validation = {
+    inputHashtags: inputHashtags,
+    comment: comment,
+    checkInput: checkInput,
+  };
 })();

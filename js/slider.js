@@ -22,7 +22,7 @@
     callback(level);
   };
 
-  var initSlider = function (callback) {
+  var init = function (callback) {
     var mouseMoveHandler = function (moveEvt) {
       var left = getCoords(slider).left;
       var value = (moveEvt.pageX - left) / slider.offsetWidth;
@@ -44,6 +44,6 @@
   };
   window.slider = {
     setValue: setValue,
-    initSlider: initSlider
+    init: init
   };
 })();
