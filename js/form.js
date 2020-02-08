@@ -54,8 +54,6 @@
       evt.preventDefault();
     }
     evt.preventDefault();
-    console.log(successButton);
-    console.log(errorButton);
-    // window.backend.save(new FormData(form), successHandler, errorHandler);
+    window.backend.save(new FormData(form), successHandler, errorHandler);
   });
 })();
