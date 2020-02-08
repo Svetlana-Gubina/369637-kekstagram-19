@@ -2,47 +2,54 @@
 (function () {
   var form = document.querySelector('.img-upload__form');
   var main = document.querySelector('main');
-  var successButton = document.querySelector('.success__button');
-  var successMessage = document.querySelector('.success');
-  var errorButton = document.querySelector('.error__button');
-  var errorMessage = document.querySelector('.error');
 
   // Отрисовка сообщений успешной загрузки и ошибки запроса на основе шаблонов
+  var closeMessage = function () {
+    main.removeChild(main.lastChild);
+    document.removeEventListener('keydown', ecapeCloseMessageHandler);
+  };
+
+  var ecapeCloseMessageHandler = function (evt) {
+    evt.preventDefault();
+    if (evt.key === 'Escape') {
+      closeMessage();
+    }
+  };
+
   var rendererrorMessage = function () {
     var errorTemplate = document.querySelector('#error').content.querySelector('.error');
     var error = errorTemplate.cloneNode(true);
     var errorFragment = document.createDocumentFragment();
     errorFragment.appendChild(error);
     main.appendChild(errorFragment);
+    var errorMessage = document.querySelector('.error');
+    return errorMessage;
   };
   var rendersuccessMessage = function () {
-    var successTemplate = document.getElementById('success').content.querySelector('.success');
+    var successTemplate = document.querySelector('#success').content.querySelector('.success');
     var success = successTemplate.cloneNode(true);
     var successFragment = document.createDocumentFragment();
     successFragment.appendChild(success);
     main.appendChild(successFragment);
+    var successMessage = document.querySelector('.success');
+    return successMessage;
   };
 
   // Обработчики успшеой зарузки изображения и ошибки запроса
   var errorHandler = function () {
     window.upload.closeUpload();
-    rendererrorMessage();
-    // document.addEventListener('keydown', onPopupEscPress);
-    errorButton.addEventListener('click', function (evt) {
-      var target = evt.target;
-      if (target.tagName === 'button') {
-        window.utils.hide(errorMessage);
-      }
-    });
+    var message = rendererrorMessage();
+    var errorButton = message.querySelector('.error__button');
+    errorButton.addEventListener('click', closeMessage);
+    document.addEventListener('keydown', ecapeCloseMessageHandler);
   };
 
   var successHandler = function () {
     window.upload.closeUpload();
-    rendersuccessMessage();
-    // document.addEventListener('keydown', onPopupEscPress);
-    successButton.addEventListener('click', function () {
-      window.utils.hide(successMessage);
-    });
+    var message = rendersuccessMessage();
+    var successButton = message.querySelector('.success__button');
+    successButton.addEventListener('click', closeMessage);
+    document.addEventListener('keydown', ecapeCloseMessageHandler);
   };
 
   form.addEventListener('submit', function (evt) {
@@ -54,8 +61,6 @@
       evt.preventDefault();
     }
     evt.preventDefault();
-    console.log(successButton);
-    console.log(errorButton);
-    // window.backend.save(new FormData(form), successHandler, errorHandler);
+    window.backend.save(new FormData(form), successHandler, errorHandler);
   });
 })();
