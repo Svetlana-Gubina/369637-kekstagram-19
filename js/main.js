@@ -23,7 +23,6 @@
     var bigPicture = document.querySelector('.big-picture');
     var url = picture.querySelector('.picture__img').src;
     var likesCount = picture.querySelector('.picture__likes').textContent;
-    var commnetsCount = picture.querySelector('.picture__comments').textContent;
     var openbigPicture = function () {
       window.utils.show(bigPicture);
     };
@@ -40,7 +39,6 @@
     body.classList.add('modal-open');
     bigPicture.querySelector('.big-picture__img').firstElementChild.src = url;
     bigPicture.querySelector('.likes-count').textContent = likesCount;
-    bigPicture.querySelector('.comments-count').textContent = commnetsCount;
     bigPicture.querySelector('.social__caption').textContent = foto.description;
 
     var cancel = document.querySelector('.big-picture__cancel');
@@ -51,18 +49,32 @@
       document.removeEventListener('keydown', bigPictureEscPressHandler);
     }
 
-    var pictureComments = foto.comments;
+    var pictureComments = foto.comments.slice();
     var socialComments = bigPicture.querySelector('.social__comments');
-    var newFragment = document.createDocumentFragment();
-    for (var f = 0; f < pictureComments.length; f++) {
-      newFragment.appendChild(createSocialComment(pictureComments[f]));
-    }
-    socialComments.innerHTML = '';
-    socialComments.appendChild(newFragment);
     var socialCommentCount = bigPicture.querySelector('.social__comment-count');
+    var actualRenderedComments = foto.comments.length >= 5 ? 5 : foto.comments.length;
+
+    var renderComments = function () {
+      var commentsToRender = pictureComments.splice(0, 5);
+      var newFragment = document.createDocumentFragment();
+      for (var f = 0; f < commentsToRender.length; f++) {
+        newFragment.appendChild(createSocialComment(commentsToRender[f]));
+      }
+      socialComments.appendChild(newFragment);
+      socialCommentCount.innerHTML = actualRenderedComments + ' из ' + foto.comments.length + ' комментариев';
+    };
+
+    socialComments.innerHTML = '';
+    renderComments();
+
     var commentsLoader = bigPicture.querySelector('.comments-loader');
-    window.utils.hide(socialCommentCount);
-    window.utils.hide(commentsLoader);
+    commentsLoader.addEventListener('click', function () {
+      actualRenderedComments += pictureComments.length >= 5 ? 5 : pictureComments.length;
+      renderComments();
+      if (actualRenderedComments === foto.comments.length) {
+        window.utils.hide(commentsLoader);
+      }
+    });
   };
 
   window.main = {

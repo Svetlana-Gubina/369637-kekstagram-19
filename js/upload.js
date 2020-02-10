@@ -6,6 +6,9 @@
   var uploadCancel = document.querySelector('.img-upload__cancel');
   var body = document.querySelector('body');
   var DEFAULTSCALE = 100;
+  var reg = /\.(?:jpg|jpeg|gif|png)$/;
+  var preview = document.querySelector('.img-upload__preview').firstElementChild;
+  var minPreviews = document.querySelectorAll('.effects__preview');
   var scaleValue = document.querySelector('.scale__control--value');
 
   var escPressHandler = function (evt) {
@@ -30,6 +33,18 @@
   };
 
   inputUpload.addEventListener('change', function () {
+    var file = inputUpload.files[0];
+    var fileName = file.name.toLowerCase();
+    if (reg.test(fileName)) {
+      var reader = new FileReader();
+      reader.addEventListener('load', function () {
+        preview.src = reader.result;
+        minPreviews.forEach(function (item) {
+          item.style.backgroundImage = 'url("' + reader.result + '")';
+        });
+      });
+      reader.readAsDataURL(file);
+    }
     openUpload();
   });
 
