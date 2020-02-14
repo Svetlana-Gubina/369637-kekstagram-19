@@ -26,10 +26,6 @@
     save: function (data, loadHandler, errorHandler) {
       var xhr = new XMLHttpRequest();
       xhr.responseType = 'json';
-      // отслеживаем процесс отправки
-      // xhr.upload.addEventListener('progress', function (evt) {
-      //   console.log('Отправлено' + evt.loaded + 'из' + evt.total);
-      // });
       xhr.addEventListener('load', function () {
         return xhr.status === 200 ? loadHandler(xhr.response) : errorHandler();
       });

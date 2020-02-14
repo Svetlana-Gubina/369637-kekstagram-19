@@ -43,6 +43,9 @@
           item.style.backgroundImage = 'url("' + reader.result + '")';
         });
       });
+      reader.addEventListener('error', function () {
+        window.data.errorHandler('Ошибка загрузки. Пожалуйста, попробуйте еще раз.');
+      });
       reader.readAsDataURL(file);
     }
     openUpload();
