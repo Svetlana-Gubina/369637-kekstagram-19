@@ -106,4 +106,8 @@
     }
     updatePictures(order);
   }));
+
+  window.data = {
+    errorHandler: errorHandler,
+  };
 })();
