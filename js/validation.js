@@ -48,8 +48,8 @@
   };
 
 
-  // Validity Checks//
-  var inputHashtagsValidityChecks = [
+  // Validity Checks
+  var inputHashtagsValidityCheck = [
     {
       isInvalid: function (hashtags) {
         return hashtags.length > 5;
@@ -86,7 +86,7 @@
     },
   ];
 
-  inputHashtags.CustomValidation = new CustomValidation(inputHashtagsValidityChecks);
+  inputHashtags.CustomValidation = new CustomValidation(inputHashtagsValidityCheck);
   comment.CustomValidation = new CustomValidation(commentValidityChecks);
 
 
