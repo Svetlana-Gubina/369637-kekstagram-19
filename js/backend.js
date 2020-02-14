@@ -23,13 +23,13 @@
       xhr.open('GET', URL);
       xhr.send();
     },
-    save: function (data, loadHandler, errorHandler) {
+    save: function (data, loadHandler, progressHandler, errorHandler) {
       var xhr = new XMLHttpRequest();
       xhr.responseType = 'json';
       // отслеживаем процесс отправки
-      // xhr.upload.addEventListener('progress', function (evt) {
-      //   console.log('Отправлено' + evt.loaded + 'из' + evt.total);
-      // });
+      xhr.upload.addEventListener('progress', function () {
+        progressHandler();
+      });
       xhr.addEventListener('load', function () {
         return xhr.status === 200 ? loadHandler(xhr.response) : errorHandler();
       });

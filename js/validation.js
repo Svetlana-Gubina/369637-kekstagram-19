@@ -36,7 +36,7 @@
 
   // Validity Checks Methods
   var misMatch = function (str) {
-    return !str.match(/#.*/);
+    return !str.match(/^#[a-z0-9]+$/i);
   };
 
   var isTooLong = function (str) {
