@@ -47,15 +47,18 @@
     userFotos = data;
     var order = Order.def;
     updatePictures(order);
+    return true;
   };
   window.backend.load(successHandler, errorHandler);
+  if (successHandler) {
+    filters.classList.remove('img-filters--inactive');
+  }
 
   // Фильтрация фотографий пользователей
   var compareCommentsLength = function (a, b) {
     return a.comments.length > b.comments.length ? -1 : 1;
   };
 
-  filters.classList.remove('img-filters--inactive');
   var filterButtons = document.querySelectorAll('.img-filters__button');
   // Добавление класса active кнопке
   var activateButton = function (btn) {
