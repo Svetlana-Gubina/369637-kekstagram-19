@@ -7,7 +7,7 @@
     li.classList.add('social__comment');
     img.classList.add('social__picture');
     img.src = comment.avatar;
-    img.alt = 'Аватар комментатора фотографии';
+    img.alt = comment.name;
     img.width = 35;
     img.height = 35;
     paragraph.classList.add('social__text');

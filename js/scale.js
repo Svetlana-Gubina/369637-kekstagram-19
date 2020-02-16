@@ -35,4 +35,8 @@
     reduce.removeEventListener('click', reduceImg);
     stepUp.removeEventListener('click', increaseImg);
   }
+
+  window.scale = {
+    scaleImg: scaleImg,
+  };
 })();

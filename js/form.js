@@ -2,6 +2,7 @@
 (function () {
   var form = document.querySelector('.img-upload__form');
   var main = document.querySelector('main');
+  var submit = form.querySelector('.img-upload__submit');
 
   // Отрисовка сообщений успешной загрузки и ошибки запроса на основе шаблонов
   var closeMessage = function () {
@@ -40,6 +41,7 @@
     window.upload.closeUpload();
     var message = rendererrorMessage();
     var errorButton = message.querySelector('.error__button');
+    message.addEventListener('click', closeMessage);
     errorButton.addEventListener('click', closeMessage);
     document.addEventListener('keydown', ecapeCloseMessageHandler);
   };
@@ -48,8 +50,13 @@
     window.upload.closeUpload();
     var message = rendersuccessMessage();
     var successButton = message.querySelector('.success__button');
+    message.addEventListener('click', closeMessage);
     successButton.addEventListener('click', closeMessage);
     document.addEventListener('keydown', ecapeCloseMessageHandler);
+  };
+
+  var progressHandler = function () {
+    submit.textContent = 'Отправка...';
   };
 
   form.addEventListener('submit', function (evt) {
@@ -61,6 +68,9 @@
       evt.preventDefault();
     }
     evt.preventDefault();
-    window.backend.save(new FormData(form), successHandler, errorHandler);
+    window.backend.save(new FormData(form), successHandler, progressHandler, errorHandler);
   });
+  window.form = {
+    submit: submit,
+  };
 })();

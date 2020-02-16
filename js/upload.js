@@ -11,6 +11,17 @@
   var minPreviews = document.querySelectorAll('.effects__preview');
   var scaleValue = document.querySelector('.scale__control--value');
 
+  var resetParameters = function () {
+    inputUpload.value = '';
+    window.form.submit.textContent = 'Опубликовать';
+    window.pictureEffect.effectsList.querySelectorAll('.effects__radio')[0].checked = true;
+    window.pictureEffect.imgPreview.style.filter = 'none';
+    scaleValue.value = DEFAULTSCALE;
+    window.scale.scaleImg(DEFAULTSCALE);
+    window.validation.inputHashtags.value = '';
+    window.validation.comment.value = '';
+  };
+
   var escPressHandler = function (evt) {
     if (evt.key === 'Escape') {
       closeUpload();
@@ -19,7 +30,7 @@
   };
 
   var closeUpload = function () {
-    inputUpload.value = '';
+    resetParameters();
     window.utils.hide(upload);
     document.removeEventListener('keydown', escPressHandler);
   };

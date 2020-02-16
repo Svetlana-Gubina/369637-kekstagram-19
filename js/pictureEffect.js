@@ -39,7 +39,7 @@
   var changeSliderHandler = function (level) {
     var effect = getEffect(currentType, level);
     imgPreview.style.filter = effect;
-    effectValue.value = level * 100;
+    effectValue.value = Math.round(level * 100);
     currentLevel = level;
   };
 
@@ -69,5 +69,7 @@
   window.pictureEffect = {
     imgPreview: imgPreview,
     sliderElement: sliderElement,
+    effectValue: effectValue,
+    effectsList: effectsList
   };
 })();
