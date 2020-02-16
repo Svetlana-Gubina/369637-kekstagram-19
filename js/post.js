@@ -12,47 +12,35 @@
 
   var ecapeCloseMessageHandler = function (evt) {
     evt.preventDefault();
-    if (evt.key === 'Escape') {
-      closeMessage();
-    }
+    window.utils.isEscEvent(evt, closeMessage);
   };
 
-  var rendererrorMessage = function () {
-    var errorTemplate = document.querySelector('#error').content.querySelector('.error');
-    var error = errorTemplate.cloneNode(true);
-    var errorFragment = document.createDocumentFragment();
-    errorFragment.appendChild(error);
-    main.appendChild(errorFragment);
-    var errorMessage = document.querySelector('.error');
-    return errorMessage;
-  };
-  var rendersuccessMessage = function () {
-    var successTemplate = document.querySelector('#success').content.querySelector('.success');
-    var success = successTemplate.cloneNode(true);
-    var successFragment = document.createDocumentFragment();
-    successFragment.appendChild(success);
-    main.appendChild(successFragment);
-    var successMessage = document.querySelector('.success');
-    return successMessage;
+  var renderMessage = function (result) {
+    var template = document.querySelector('#' + result).content.querySelector('.' + result);
+    var content = template.cloneNode(true);
+    var fragment = document.createDocumentFragment();
+    fragment.appendChild(content);
+    main.appendChild(fragment);
+    var message = document.querySelector('.' + result);
+    return message;
   };
 
   // Обработчики успшеой зарузки изображения и ошибки запроса
-  var errorHandler = function () {
+  var submitHandler = function (result) {
     window.upload.closeUpload();
-    var message = rendererrorMessage();
-    var errorButton = message.querySelector('.error__button');
+    var message = renderMessage(result);
+    var closeButton = message.querySelector('.' + result + '__button');
     message.addEventListener('click', closeMessage);
-    errorButton.addEventListener('click', closeMessage);
+    closeButton.addEventListener('click', closeMessage);
     document.addEventListener('keydown', ecapeCloseMessageHandler);
   };
 
+  var errorHandler = function () {
+    submitHandler('error');
+  };
+
   var successHandler = function () {
-    window.upload.closeUpload();
-    var message = rendersuccessMessage();
-    var successButton = message.querySelector('.success__button');
-    message.addEventListener('click', closeMessage);
-    successButton.addEventListener('click', closeMessage);
-    document.addEventListener('keydown', ecapeCloseMessageHandler);
+    submitHandler('success');
   };
 
   var progressHandler = function () {
@@ -70,7 +58,9 @@
     evt.preventDefault();
     window.backend.save(new FormData(form), successHandler, progressHandler, errorHandler);
   });
-  window.form = {
+
+  window.post = {
+    form: form,
     submit: submit,
   };
 })();

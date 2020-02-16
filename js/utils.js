@@ -1,6 +1,16 @@
 'use strict';
 (function () {
   window.utils = {
+    isEscEvent: function (evt, action) {
+      if (evt.key === 'Escape') {
+        action();
+      }
+    },
+    isEnterEvent: function (evt, action) {
+      if (evt.key === 'Enter') {
+        action();
+      }
+    },
     show: function (elem) {
       elem.classList.remove('hidden');
     },
@@ -30,7 +40,7 @@
       }
       return arr;
     },
-    // Ограничение диапазона//
+    // Ограничение диапазона
     clamp: function (value, min, max) {
       if (value < min) {
         return min;
@@ -42,7 +52,7 @@
 
       return value;
     },
-    // Массив неповторяющихся элементов//
+    // Массив неповторяющихся элементов
     unique: function (arr) {
       var obj = {};
       for (var v = 0; v < arr.length; v++) {

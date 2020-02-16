@@ -1,5 +1,6 @@
 'use strict';
 (function () {
+  var OUTLINE = '2px solid red';
   var inputHashtags = document.querySelector('input[name="hashtags"]');
   var comment = document.querySelector('.text__description');
 
@@ -49,7 +50,7 @@
 
 
   // Validity Checks
-  var inputHashtagsValidityCheck = [
+  var inputHashtagsValidityChecks = [
     {
       isInvalid: function (hashtags) {
         return hashtags.length > 5;
@@ -86,7 +87,7 @@
     },
   ];
 
-  inputHashtags.CustomValidation = new CustomValidation(inputHashtagsValidityCheck);
+  inputHashtags.CustomValidation = new CustomValidation(inputHashtagsValidityChecks);
   comment.CustomValidation = new CustomValidation(commentValidityChecks);
 
 
@@ -129,10 +130,10 @@
   });
 
   inputHashtags.addEventListener('invalid', function () {
-    inputHashtags.style.outline = '2px solid red';
+    inputHashtags.style.outline = OUTLINE;
   });
   comment.addEventListener('invalid', function () {
-    comment.style.outline = '2px solid red';
+    comment.style.outline = OUTLINE;
   });
 
   window.validation = {

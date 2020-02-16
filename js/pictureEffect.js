@@ -1,11 +1,12 @@
 'use strict';
 (function () {
   // Применение эффекта для изображения
+  var DEFAULTVALUE = 1;
   var imgPreview = document.querySelector('.img-upload__preview');
   var effectsList = document.querySelector('.effects__list');
   var sliderElement = document.querySelector('.effect-level');
   var effectValue = document.querySelector('.effect-level__value');
-  var DEFAULTVALUE = 1;
+
 
   // Функция изменении уровня интенсивности эффекта
   var getEffect = function (currentType, level) {

@@ -19,24 +19,22 @@
 
   var pictureClickHandler = function (evt, foto) {
     var picture = evt.currentTarget;
-    var body = document.querySelector('body');
     var bigPicture = document.querySelector('.big-picture');
     var url = picture.querySelector('.picture__img').src;
     var likesCount = picture.querySelector('.picture__likes').textContent;
     var openbigPicture = function () {
       window.utils.show(bigPicture);
+      document.body.classList.add('modal-open');
     };
     var hideBigPicture = function () {
       window.utils.hide(bigPicture);
+      document.body.classList.remove('modal-open');
+      foto.comments.length = 0;
     };
     var bigPictureEscPressHandler = function (keyEvt) {
-      if (keyEvt.key === 'Escape') {
-        hideBigPicture();
-        body.classList.remove('modal-open');
-      }
+      window.utils.isEscEvent(keyEvt, hideBigPicture);
     };
     openbigPicture();
-    body.classList.add('modal-open');
     bigPicture.querySelector('.big-picture__img').firstElementChild.src = url;
     bigPicture.querySelector('.likes-count').textContent = likesCount;
     bigPicture.querySelector('.social__caption').textContent = foto.description;
@@ -52,6 +50,7 @@
     var pictureComments = foto.comments.slice();
     var socialComments = bigPicture.querySelector('.social__comments');
     var socialCommentCount = bigPicture.querySelector('.social__comment-count');
+
     var actualRenderedComments = foto.comments.length >= 5 ? 5 : foto.comments.length;
 
     var renderComments = function () {
@@ -68,16 +67,24 @@
     renderComments();
 
     var commentsLoader = bigPicture.querySelector('.comments-loader');
-    commentsLoader.addEventListener('click', function () {
+    if (foto.comments.length > 5) {
+      window.utils.show(commentsLoader);
+    }
+
+    var addComments = function () {
       actualRenderedComments += pictureComments.length >= 5 ? 5 : pictureComments.length;
       renderComments();
       if (actualRenderedComments === foto.comments.length) {
         window.utils.hide(commentsLoader);
       }
-    });
+    };
+    commentsLoader.addEventListener('click', addComments);
+    if (commentsLoader.classList.contains('hidden')) {
+      commentsLoader.removeEventListener('click', addComments);
+    }
   };
 
-  window.main = {
+  window.picture = {
     pictureClickHandler: pictureClickHandler
   };
 })();

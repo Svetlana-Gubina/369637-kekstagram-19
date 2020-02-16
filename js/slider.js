@@ -12,22 +12,22 @@
     };
   };
 
-  var setValue = function (value, callback) {
+  var setValue = function (value, cb) {
     var level = window.utils.clamp(value, 0, 1);
     var percent = level * 100;
 
     pin.style.left = percent + '%';
     depth.style.width = percent + '%';
 
-    callback(level);
+    cb(level);
   };
 
-  var init = function (callback) {
+  var init = function (cb) {
     var mouseMoveHandler = function (moveEvt) {
       var left = getCoords(slider).left;
       var value = (moveEvt.pageX - left) / slider.offsetWidth;
 
-      setValue(value, callback);
+      setValue(value, cb);
     };
 
     var mouseUpHandler = function (upEvt) {
@@ -35,7 +35,7 @@
       var left = getCoords(slider).left;
       var value = (upEvt.pageX - left) / slider.offsetWidth;
 
-      setValue(value, callback);
+      setValue(value, cb);
       document.removeEventListener('mousemove', mouseMoveHandler);
       document.removeEventListener('mouseup', mouseUpHandler);
     };

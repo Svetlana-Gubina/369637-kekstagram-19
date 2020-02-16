@@ -1,9 +1,9 @@
 'use strict';
 (function () {
-  var stepUp = document.querySelector('.scale__control--bigger');
-  var reduce = document.querySelector('.scale__control--smaller');
   var MINVALUE = 25;
   var STEP = MINVALUE;
+  var stepUp = document.querySelector('.scale__control--bigger');
+  var reduce = document.querySelector('.scale__control--smaller');
   var img = window.pictureEffect.imgPreview.children[0];
 
   var scaleImg = function (num) {

@@ -9,7 +9,7 @@
   var renderUserFoto = function (foto) {
     var userPicture = userPictureTemplate.cloneNode(true);
     userPicture.addEventListener('click', function (evt) {
-      window.main.pictureClickHandler(evt, foto);
+      window.picture.pictureClickHandler(evt, foto);
     });
     userPicture.querySelector('.picture__img').src = foto.url;
     userPicture.querySelector('.picture__likes').textContent = foto.likes;
@@ -37,7 +37,7 @@
   };
 
   // Порядок сортирвки фотографий пользователей
-  var Order = {
+  var OrderTypeToNumber = {
     def: 0,
     random: 1,
     discussed: 2,
@@ -45,7 +45,7 @@
 
   var successHandler = function (data) {
     userFotos = data;
-    var order = Order.def;
+    var order = OrderTypeToNumber.def;
     updatePictures(order);
     return true;
   };
@@ -74,15 +74,15 @@
     });
     activateButton(filterButton);
   };
-  var defBtn = document.querySelector('#filter-default');
-  var randomBtn = document.querySelector('#filter-random');
-  var discussedBtn = document.querySelector('#filter-discussed');
+  var defButton = document.querySelector('#filter-default');
+  var randomButton = document.querySelector('#filter-random');
+  var discussedButton = document.querySelector('#filter-discussed');
 
   // Функция удаления отображенных элементов
   var updatePictures = function (order) {
-    if (order === Order.random) {
+    if (order === OrderTypeToNumber.random) {
       return renderFotos(window.utils.shuffle(userFotos.slice()));
-    } else if (order === Order.discussed) {
+    } else if (order === OrderTypeToNumber.discussed) {
       return renderFotos(userFotos.slice().sort(compareCommentsLength));
     }
     return renderFotos(userFotos);
@@ -100,12 +100,12 @@
     setActiveFilterButton(target);
     removePictures();
     var order;
-    if (target === defBtn) {
-      order = Order.def;
-    } else if (target === randomBtn) {
-      order = Order.random;
-    } else if (target === discussedBtn) {
-      order = Order.discussed;
+    if (target === defButton) {
+      order = OrderTypeToNumber.def;
+    } else if (target === randomButton) {
+      order = OrderTypeToNumber.random;
+    } else if (target === discussedButton) {
+      order = OrderTypeToNumber.discussed;
     }
     updatePictures(order);
   }));
