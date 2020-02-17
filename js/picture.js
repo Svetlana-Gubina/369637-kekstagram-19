@@ -29,7 +29,6 @@
     var hideBigPicture = function () {
       window.utils.hide(bigPicture);
       document.body.classList.remove('modal-open');
-      foto.comments.length = 0;
     };
     var bigPictureEscPressHandler = function (keyEvt) {
       window.utils.isEscEvent(keyEvt, hideBigPicture);
@@ -51,16 +50,18 @@
     var socialComments = bigPicture.querySelector('.social__comments');
     var socialCommentCount = bigPicture.querySelector('.social__comment-count');
 
-    var actualRenderedComments = foto.comments.length >= 5 ? 5 : foto.comments.length;
-
     var renderComments = function () {
-      var commentsToRender = pictureComments.splice(0, 5);
+      var count = 0;
       var newFragment = document.createDocumentFragment();
-      for (var f = 0; f < commentsToRender.length; f++) {
-        newFragment.appendChild(createSocialComment(commentsToRender[f]));
+      while (pictureComments.length > 0 && count < 5) { // добавляем не более пяти комментариев
+        var element = createSocialComment(pictureComments[0]);
+        newFragment.appendChild(element);
+        count++;
+        pictureComments.shift();
       }
       socialComments.appendChild(newFragment);
-      socialCommentCount.innerHTML = actualRenderedComments + ' из ' + foto.comments.length + ' комментариев';
+      // В блоке .social__comment-count показывается актуальное количество отрисованных комментариев и полное количество комментариев
+      socialCommentCount.textContent = socialComments.childNodes.length + ' из ' + foto.comments.length + ' комментариев';
     };
 
     socialComments.innerHTML = '';
@@ -69,12 +70,13 @@
     var commentsLoader = bigPicture.querySelector('.comments-loader');
     if (foto.comments.length > 5) {
       window.utils.show(commentsLoader);
+    } else {
+      window.utils.hide(commentsLoader);
     }
 
     var addComments = function () {
-      actualRenderedComments += pictureComments.length >= 5 ? 5 : pictureComments.length;
       renderComments();
-      if (actualRenderedComments === foto.comments.length) {
+      if (socialComments.childNodes.length === foto.comments.length) {
         window.utils.hide(commentsLoader);
       }
     };
