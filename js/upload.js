@@ -15,7 +15,7 @@
     window.post.submit.textContent = 'Опубликовать';
     window.pictureEffect.effectsList.querySelectorAll('.effects__radio')[0].checked = true;
     window.pictureEffect.imgPreview.style.filter = 'none';
-    window.scale.scaleImg(DEFAULTSCALE);
+    window.scale.transformImg(DEFAULTSCALE);
   };
 
   var escPressHandler = function (evt) {

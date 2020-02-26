@@ -81,7 +81,7 @@
   // Функция удаления отображенных элементов
   var updatePictures = function (order) {
     if (order === OrderTypeToNumber.random) {
-      return renderFotos(window.utils.shuffle(userFotos.slice()));
+      return renderFotos(window.utils.shuffle(userFotos.slice(0, 10)));
     } else if (order === OrderTypeToNumber.discussed) {
       return renderFotos(userFotos.slice().sort(compareCommentsLength));
     }

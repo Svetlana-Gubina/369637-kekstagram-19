@@ -40,6 +40,8 @@
   var changeSliderHandler = function (level) {
     var effect = getEffect(currentType, level);
     imgPreview.style.filter = effect;
+    imgPreview.style = 'display: flex; -webkit-box-align: center;-ms-flex-align: center; align-items: center; -webkit-box-pack: center; -ms-flex-pack: center; justify-content: center; width: 600px; height: 600px; background-color: #ffffff;';
+    imgPreview.children[0].style = 'max-width: 600px; max-height = 600px';
     effectValue.value = Math.round(level * 100);
     currentLevel = level;
   };

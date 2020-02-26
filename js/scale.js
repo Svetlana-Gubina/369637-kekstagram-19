@@ -6,7 +6,7 @@
   var reduce = document.querySelector('.scale__control--smaller');
   var img = window.pictureEffect.imgPreview.children[0];
 
-  var scaleImg = function (num) {
+  var transformImg = function (num) {
     img.style = 'transform: scale(' + num / 100 + ')';
   };
 
@@ -15,7 +15,7 @@
     var num = parseInt(window.upload.scaleValue.value, 10);
     if (num > MINVALUE) {
       window.upload.scaleValue.value = num - STEP + '%';
-      scaleImg(num - STEP);
+      transformImg(num - STEP);
     }
   };
 
@@ -24,7 +24,7 @@
     var num = parseInt(window.upload.scaleValue.value, 10);
     if (num < window.upload.DEFAULTSCALE) {
       window.upload.scaleValue.value = num + STEP + '%';
-      scaleImg(num + STEP);
+      transformImg(num + STEP);
     }
   };
 
@@ -37,6 +37,6 @@
   }
 
   window.scale = {
-    scaleImg: scaleImg,
+    transformImg: transformImg,
   };
 })();
